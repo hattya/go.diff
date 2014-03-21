@@ -1,0 +1,182 @@
+//
+// go.diff :: diff.go
+//
+//   Copyright (c) 2014 Akinori Hattori <hattya@gmail.com>
+//
+//   Permission is hereby granted, free of charge, to any person
+//   obtaining a copy of this software and associated documentation files
+//   (the "Software"), to deal in the Software without restriction,
+//   including without limitation the rights to use, copy, modify, merge,
+//   publish, distribute, sublicense, and/or sell copies of the Software,
+//   and to permit persons to whom the Software is furnished to do so,
+//   subject to the following conditions:
+//
+//   The above copyright notice and this permission notice shall be
+//   included in all copies or substantial portions of the Software.
+//
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+//   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+//   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+//   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+//   BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+//   ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+//   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//   SOFTWARE.
+//
+
+// Package diff implements the difference algorithm, which is based on
+// S. Wu, U. Manber, G. Myers and W. Miller,
+// "An O(NP) Sequence Comparison Algorithm" August 1989
+package diff
+
+type Interface interface {
+	Equal(x, y int) bool
+}
+
+func Runes(a, b []rune) []Change {
+	return Diff(len(a), len(b), &runes{a, b})
+}
+
+type runes struct {
+	A, B []rune
+}
+
+func (p *runes) Equal(x, y int) bool { return p.A[x] == p.B[y] }
+
+func Diff(m, n int, data Interface) []Change {
+	c := &context{data: data}
+	if n >= m {
+		c.M = m
+		c.N = n
+	} else {
+		c.M = n
+		c.N = m
+		c.xchg = true
+	}
+	c.Δ = c.N - c.M
+	return c.compare()
+}
+
+type Change struct {
+	A, B int
+	Del  int
+	Ins  int
+}
+
+type context struct {
+	data Interface
+	M, N int
+	Δ    int
+	fp   []point
+	xchg bool
+}
+
+func (c *context) compare() []Change {
+	c.fp = make([]point, (c.M+1)+(c.N+1)+1)
+	for i, _ := range c.fp {
+		c.fp[i].y = -1
+	}
+
+	Δ := c.Δ + (c.M + 1)
+	for p := 0; c.fp[Δ].y != c.N; p++ {
+		for k := -p; k <= c.Δ-1; k++ {
+			c.snake(k)
+		}
+		for k := c.Δ + p; k >= c.Δ+1; k-- {
+			c.snake(k)
+		}
+		c.snake(c.Δ)
+	}
+
+	lcs, n := c.reverse(c.fp[Δ].lcs)
+	cl := make([]Change, 0, n+1)
+	x, y := 0, 0
+	for ; lcs != nil; lcs = lcs.next {
+		if x < lcs.x || y < lcs.y {
+			if !c.xchg {
+				cl = append(cl, Change{x, y, lcs.x - x, lcs.y - y})
+			} else {
+				cl = append(cl, Change{x, y, lcs.y - y, lcs.x - x})
+			}
+		}
+		x = lcs.x + lcs.n
+		y = lcs.y + lcs.n
+	}
+	if x < c.M || y < c.N {
+		if !c.xchg {
+			cl = append(cl, Change{x, y, c.M - x, c.N - y})
+		} else {
+			cl = append(cl, Change{x, y, c.N - y, c.M - x})
+		}
+	}
+	return cl
+}
+
+func (c *context) snake(k int) {
+	var y int
+	var prev *lcs
+	kk := k + (c.M + 1)
+
+	h := &c.fp[kk-1]
+	v := &c.fp[kk+1]
+	if h.y+1 >= v.y {
+		y = h.y + 1
+		prev = h.lcs
+	} else {
+		y = v.y
+		prev = v.lcs
+	}
+
+	x := y - k
+	n := 0
+	for x < c.M && y < c.N {
+		var eq bool
+		if !c.xchg {
+			eq = c.data.Equal(x, y)
+		} else {
+			eq = c.data.Equal(y, x)
+		}
+		if !eq {
+			break
+		}
+		x++
+		y++
+		n++
+	}
+
+	p := &c.fp[kk]
+	p.y = y
+	if n == 0 {
+		p.lcs = prev
+	} else {
+		p.lcs = &lcs{
+			x:    x - n,
+			y:    y - n,
+			n:    n,
+			next: prev,
+		}
+	}
+}
+
+func (c *context) reverse(curr *lcs) (*lcs, int) {
+	n := 0
+	var prev, next *lcs
+	for ; curr != nil; n++ {
+		prev = curr.next
+		curr.next = next
+		next = curr
+		curr = prev
+	}
+	return next, n
+}
+
+type point struct {
+	y   int
+	lcs *lcs
+}
+
+type lcs struct {
+	x, y int
+	n    int
+	next *lcs
+}
