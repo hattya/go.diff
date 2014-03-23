@@ -33,6 +33,16 @@ type Interface interface {
 	Equal(x, y int) bool
 }
 
+func Ints(a, b []int) []Change {
+	return Diff(len(a), len(b), &ints{a, b})
+}
+
+type ints struct {
+	A, B []int
+}
+
+func (p *ints) Equal(x, y int) bool { return p.A[x] == p.B[y] }
+
 func Runes(a, b []rune) []Change {
 	return Diff(len(a), len(b), &runes{a, b})
 }
