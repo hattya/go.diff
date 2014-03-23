@@ -122,6 +122,19 @@ func TestDiff(t *testing.T) {
 	}
 }
 
+func TestBytes(t *testing.T) {
+	tt := tests[paper]
+	cl := diff.Bytes(toByte(tt.a), toByte(tt.b))
+	if g, e := len(cl), len(tt.cl); g != e {
+		t.Errorf("expected %v, got %v", e, g)
+	}
+	for i, c := range cl {
+		if c != tt.cl[i] {
+			t.Errorf("expected %#v, got %#v", tt.cl[i], c)
+		}
+	}
+}
+
 func TestInts(t *testing.T) {
 	tt := tests[paper]
 	cl := diff.Ints(toInt(tt.a), toInt(tt.b))
@@ -165,6 +178,16 @@ func BenchmarkDiff(b *testing.B) {
 	}
 }
 
+func BenchmarkBytes(b *testing.B) {
+	tt := tests[paper]
+	A := toByte(tt.a)
+	B := toByte(tt.b)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		diff.Bytes(A, B)
+	}
+}
+
 func BenchmarkInts(b *testing.B) {
 	tt := tests[paper]
 	A := toInt(tt.a)
@@ -183,6 +206,14 @@ func BenchmarkRunes(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		diff.Runes(A, B)
 	}
+}
+
+func toByte(a []rune) []byte {
+	l := make([]byte, len(a))
+	for i, r := range a {
+		l[i] = byte(r)
+	}
+	return l
 }
 
 func toInt(a []rune) []int {

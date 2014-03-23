@@ -33,6 +33,16 @@ type Interface interface {
 	Equal(x, y int) bool
 }
 
+func Bytes(a, b []byte) []Change {
+	return Diff(len(a), len(b), &bytes{a, b})
+}
+
+type bytes struct {
+	A, B []byte
+}
+
+func (p *bytes) Equal(x, y int) bool { return p.A[x] == p.B[y] }
+
 func Ints(a, b []int) []Change {
 	return Diff(len(a), len(b), &ints{a, b})
 }
