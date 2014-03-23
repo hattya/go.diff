@@ -161,6 +161,19 @@ func TestRunes(t *testing.T) {
 	}
 }
 
+func TestStrings(t *testing.T) {
+	tt := tests[paper]
+	cl := diff.Strings(toString(tt.a), toString(tt.b))
+	if g, e := len(cl), len(tt.cl); g != e {
+		t.Errorf("expected %v, got %v", e, g)
+	}
+	for i, c := range cl {
+		if c != tt.cl[i] {
+			t.Errorf("expected %#v, got %#v", tt.cl[i], c)
+		}
+	}
+}
+
 type runes struct {
 	A, B []rune
 }
@@ -208,6 +221,16 @@ func BenchmarkRunes(b *testing.B) {
 	}
 }
 
+func BenchmarkStrings(b *testing.B) {
+	tt := tests[paper]
+	A := toString(tt.a)
+	B := toString(tt.b)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		diff.Strings(A, B)
+	}
+}
+
 func toByte(a []rune) []byte {
 	l := make([]byte, len(a))
 	for i, r := range a {
@@ -220,6 +243,14 @@ func toInt(a []rune) []int {
 	l := make([]int, len(a))
 	for i, r := range a {
 		l[i] = int(r)
+	}
+	return l
+}
+
+func toString(a []rune) []string {
+	l := make([]string, len(a))
+	for i, r := range a {
+		l[i] = string(r)
 	}
 	return l
 }

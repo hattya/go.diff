@@ -63,6 +63,16 @@ type runes struct {
 
 func (p *runes) Equal(x, y int) bool { return p.A[x] == p.B[y] }
 
+func Strings(a, b []string) []Change {
+	return Diff(len(a), len(b), &strings{a, b})
+}
+
+type strings struct {
+	A, B []string
+}
+
+func (p *strings) Equal(x, y int) bool { return p.A[x] == p.B[y] }
+
 func Diff(m, n int, data Interface) []Change {
 	c := &context{data: data}
 	if n >= m {
