@@ -114,9 +114,24 @@ func TestDiff(t *testing.T) {
 		if g, e := len(cl), len(tt.cl); g != e {
 			t.Errorf("%s: expected %v, got %v", tt.name, e, g)
 		}
-		for i, c := range cl {
-			if c != tt.cl[i] {
-				t.Errorf("%s: expected %#v, got %#v", tt.name, tt.cl[i], c)
+		for i, c := range tt.cl {
+			if cl[i] != c {
+				t.Errorf("%s: expected %#v, got %#v", tt.name, c, cl[i])
+			}
+		}
+	}
+}
+
+func TestDiffExchange(t *testing.T) {
+	for _, tt := range tests {
+		cl := diff.Runes(tt.b, tt.a)
+		if g, e := len(cl), len(tt.cl); g != e {
+			t.Errorf("%s: expected %v, got %v", tt.name, e, g)
+		}
+		for i, c := range tt.cl {
+			c = diff.Change{c.B, c.A, c.Ins, c.Del}
+			if cl[i] != c {
+				t.Errorf("%s: expected %#v, got %#v", tt.name, c, cl[i])
 			}
 		}
 	}

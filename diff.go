@@ -126,7 +126,7 @@ func (c *context) compare() []Change {
 			if !c.xchg {
 				cl = append(cl, Change{x, y, lcs.x - x, lcs.y - y})
 			} else {
-				cl = append(cl, Change{x, y, lcs.y - y, lcs.x - x})
+				cl = append(cl, Change{y, x, lcs.y - y, lcs.x - x})
 			}
 		}
 		x = lcs.x + lcs.n
@@ -136,7 +136,7 @@ func (c *context) compare() []Change {
 		if !c.xchg {
 			cl = append(cl, Change{x, y, c.M - x, c.N - y})
 		} else {
-			cl = append(cl, Change{x, y, c.N - y, c.M - x})
+			cl = append(cl, Change{y, x, c.N - y, c.M - x})
 		}
 	}
 	return cl
