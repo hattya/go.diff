@@ -109,10 +109,10 @@ func (c *context) compare() []Change {
 
 	Δ := c.Δ + (c.M + 1)
 	for p := 0; c.fp[Δ].y != c.N; p++ {
-		for k := -p; k <= c.Δ-1; k++ {
+		for k := -p; k < c.Δ; k++ {
 			c.snake(k)
 		}
-		for k := c.Δ + p; k >= c.Δ+1; k-- {
+		for k := c.Δ + p; k > c.Δ; k-- {
 			c.snake(k)
 		}
 		c.snake(c.Δ)
