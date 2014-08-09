@@ -24,15 +24,17 @@
 //   SOFTWARE.
 //
 
-// Package diff implements the difference algorithm, which is based on
+// Package diff implements the difference algorithm, which is based upon
 // S. Wu, U. Manber, G. Myers and W. Miller,
-// "An O(NP) Sequence Comparison Algorithm" August 1989
+// "An O(NP) Sequence Comparison Algorithm" August 1989.
 package diff
 
 type Interface interface {
-	Equal(x, y int) bool
+	// Equal returns whether the elements at i and j are equal.
+	Equal(i, j int) bool
 }
 
+// Bytes returns the differences between byte slices.
 func Bytes(a, b []byte) []Change {
 	return Diff(len(a), len(b), &bytes{a, b})
 }
@@ -41,8 +43,9 @@ type bytes struct {
 	A, B []byte
 }
 
-func (p *bytes) Equal(x, y int) bool { return p.A[x] == p.B[y] }
+func (p *bytes) Equal(i, j int) bool { return p.A[i] == p.B[j] }
 
+// Ints returns the differences between int slices.
 func Ints(a, b []int) []Change {
 	return Diff(len(a), len(b), &ints{a, b})
 }
@@ -51,8 +54,9 @@ type ints struct {
 	A, B []int
 }
 
-func (p *ints) Equal(x, y int) bool { return p.A[x] == p.B[y] }
+func (p *ints) Equal(i, j int) bool { return p.A[i] == p.B[j] }
 
+// Runes returns the differences between rune slices.
 func Runes(a, b []rune) []Change {
 	return Diff(len(a), len(b), &runes{a, b})
 }
@@ -61,8 +65,9 @@ type runes struct {
 	A, B []rune
 }
 
-func (p *runes) Equal(x, y int) bool { return p.A[x] == p.B[y] }
+func (p *runes) Equal(i, j int) bool { return p.A[i] == p.B[j] }
 
+// Strings returns the differences between string slices.
 func Strings(a, b []string) []Change {
 	return Diff(len(a), len(b), &strings{a, b})
 }
@@ -71,8 +76,10 @@ type strings struct {
 	A, B []string
 }
 
-func (p *strings) Equal(x, y int) bool { return p.A[x] == p.B[y] }
+func (p *strings) Equal(i, j int) bool { return p.A[i] == p.B[j] }
 
+// Diff returns the differences between data.
+// It makes O(NP) (the worst case) calls to data.Equal.
 func Diff(m, n int, data Interface) []Change {
 	c := &context{data: data}
 	if n >= m {
@@ -88,9 +95,9 @@ func Diff(m, n int, data Interface) []Change {
 }
 
 type Change struct {
-	A, B int
-	Del  int
-	Ins  int
+	A, B int // position in a and b
+	Del  int // number of elements that deleted from a
+	Ins  int // number of elements that inserted into b
 }
 
 type context struct {

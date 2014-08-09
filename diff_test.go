@@ -193,7 +193,7 @@ type runes struct {
 	A, B []rune
 }
 
-func (d *runes) Equal(x, y int) bool { return d.A[x] == d.B[y] }
+func (d *runes) Equal(i, j int) bool { return d.A[i] == d.B[j] }
 
 func BenchmarkDiff(b *testing.B) {
 	tt := tests[paper]
