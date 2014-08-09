@@ -1,3 +1,5 @@
 *.exe
+*.html
+*.out
 *.sw?
 *.test
