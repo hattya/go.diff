@@ -32,13 +32,11 @@ import (
 	"github.com/hattya/go.diff"
 )
 
-type diffTest struct {
+var tests = []struct {
 	name string
 	a, b []rune
 	cl   []diff.Change
-}
-
-var tests = []diffTest{
+}{
 	{
 		name: "same",
 		a:    []rune("abc"),
@@ -112,11 +110,11 @@ func TestDiff(t *testing.T) {
 	for _, tt := range tests {
 		cl := diff.Runes(tt.a, tt.b)
 		if g, e := len(cl), len(tt.cl); g != e {
-			t.Errorf("%s: expected %v, got %v", tt.name, e, g)
+			t.Errorf("%v: expected %v, got %v", tt.name, e, g)
 		}
 		for i, c := range tt.cl {
 			if cl[i] != c {
-				t.Errorf("%s: expected %#v, got %#v", tt.name, c, cl[i])
+				t.Errorf("%v: expected %#v, got %#v", tt.name, c, cl[i])
 			}
 		}
 	}
@@ -126,12 +124,17 @@ func TestDiffExchange(t *testing.T) {
 	for _, tt := range tests {
 		cl := diff.Runes(tt.b, tt.a)
 		if g, e := len(cl), len(tt.cl); g != e {
-			t.Errorf("%s: expected %v, got %v", tt.name, e, g)
+			t.Errorf("%v: expected %v, got %v", tt.name, e, g)
 		}
 		for i, c := range tt.cl {
-			c = diff.Change{c.B, c.A, c.Ins, c.Del}
+			c = diff.Change{
+				A:   c.B,
+				B:   c.A,
+				Del: c.Ins,
+				Ins: c.Del,
+			}
 			if cl[i] != c {
-				t.Errorf("%s: expected %#v, got %#v", tt.name, c, cl[i])
+				t.Errorf("%v: expected %#v, got %#v", tt.name, c, cl[i])
 			}
 		}
 	}
