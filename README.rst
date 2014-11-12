@@ -3,6 +3,12 @@ go.diff
 
 A Go_ implementation of "An O(NP) Sequence Comparison Algorithm" [#]_.
 
+.. image:: https://godoc.org/github.com/hattya/go.diff?status.svg
+   :target: https://godoc.org/github.com/hattya/go.diff
+
+.. image:: https://drone.io/github.com/hattya/go.diff/status.png
+   :target: https://drone.io/github.com/hattya/go.diff/latest
+
 .. _Go: http://golang.org/
 
 
