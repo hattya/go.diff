@@ -9,11 +9,14 @@ A Go_ implementation of "An O(NP) Sequence Comparison Algorithm" [#]_.
 .. image:: https://drone.io/github.com/hattya/go.diff/status.png
    :target: https://drone.io/github.com/hattya/go.diff/latest
 
+.. image:: https://ci.appveyor.com/api/projects/status/ryyeqn70w488ac8f?svg=true
+   :target: https://ci.appveyor.com/project/hattya/go-diff
+
 .. _Go: http://golang.org/
 
 
-Install
--------
+Installation
+------------
 
 .. code:: console
 
