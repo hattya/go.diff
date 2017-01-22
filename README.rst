@@ -6,10 +6,10 @@ A Go_ implementation of "An O(NP) Sequence Comparison Algorithm" [#]_.
 .. image:: https://godoc.org/github.com/hattya/go.diff?status.svg
    :target: https://godoc.org/github.com/hattya/go.diff
 
-.. image:: https://drone.io/github.com/hattya/go.diff/status.png
-   :target: https://drone.io/github.com/hattya/go.diff/latest
+.. image:: https://semaphoreci.com/api/v1/hattya/go-diff/branches/master/badge.svg
+   :target: https://semaphoreci.com/hattya/go-diff
 
-.. image:: https://ci.appveyor.com/api/projects/status/ryyeqn70w488ac8f?svg=true
+.. image:: https://ci.appveyor.com/api/projects/status/ryyeqn70w488ac8f/branch/master?svg=true
    :target: https://ci.appveyor.com/project/hattya/go-diff
 
 .. _Go: http://golang.org/
