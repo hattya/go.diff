@@ -1,7 +1,7 @@
 //
 // go.diff :: diff_test.go
 //
-//   Copyright (c) 2014 Akinori Hattori <hattya@gmail.com>
+//   Copyright (c) 2014-2017 Akinori Hattori <hattya@gmail.com>
 //
 //   Permission is hereby granted, free of charge, to any person
 //   obtaining a copy of this software and associated documentation files
@@ -48,7 +48,7 @@ var tests = []struct {
 		a:    []rune("abc"),
 		b:    []rune("12345"),
 		cl: []diff.Change{
-			{0, 0, 3, 5},
+			{A: 0, B: 0, Del: 3, Ins: 5},
 		},
 	},
 	{
@@ -56,7 +56,7 @@ var tests = []struct {
 		a:    []rune("abc"),
 		b:    []rune("`abc"),
 		cl: []diff.Change{
-			{0, 0, 0, 1},
+			{A: 0, B: 0, Del: 0, Ins: 1},
 		},
 	},
 	{
@@ -64,7 +64,7 @@ var tests = []struct {
 		a:    []rune("`abc"),
 		b:    []rune("abc"),
 		cl: []diff.Change{
-			{0, 0, 1, 0},
+			{A: 0, B: 0, Del: 1, Ins: 0},
 		},
 	},
 	{
@@ -72,7 +72,7 @@ var tests = []struct {
 		a:    []rune("abc"),
 		b:    []rune("abcd"),
 		cl: []diff.Change{
-			{3, 3, 0, 1},
+			{A: 3, B: 3, Del: 0, Ins: 1},
 		},
 	},
 	{
@@ -80,7 +80,7 @@ var tests = []struct {
 		a:    []rune("abcd"),
 		b:    []rune("abc"),
 		cl: []diff.Change{
-			{3, 3, 1, 0},
+			{A: 3, B: 3, Del: 1, Ins: 0},
 		},
 	},
 	{
@@ -88,8 +88,8 @@ var tests = []struct {
 		a:    []rune("b"),
 		b:    []rune("abc"),
 		cl: []diff.Change{
-			{0, 0, 0, 1},
-			{1, 2, 0, 1},
+			{A: 0, B: 0, Del: 0, Ins: 1},
+			{A: 1, B: 2, Del: 0, Ins: 1},
 		},
 	},
 	{
@@ -97,10 +97,10 @@ var tests = []struct {
 		a:    []rune("acbdeacbed"),
 		b:    []rune("acebdabbabed"),
 		cl: []diff.Change{
-			{2, 2, 0, 1},
-			{4, 5, 1, 0},
-			{6, 6, 1, 0},
-			{8, 7, 0, 3},
+			{A: 2, B: 2, Del: 0, Ins: 1},
+			{A: 4, B: 5, Del: 1, Ins: 0},
+			{A: 6, B: 6, Del: 1, Ins: 0},
+			{A: 8, B: 7, Del: 0, Ins: 3},
 		},
 	},
 }
