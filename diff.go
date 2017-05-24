@@ -1,7 +1,7 @@
 //
 // go.diff :: diff.go
 //
-//   Copyright (c) 2014 Akinori Hattori <hattya@gmail.com>
+//   Copyright (c) 2014-2017 Akinori Hattori <hattya@gmail.com>
 //
 //   Permission is hereby granted, free of charge, to any person
 //   obtaining a copy of this software and associated documentation files
@@ -25,7 +25,7 @@
 //
 
 // Package diff implements the difference algorithm, which is based upon
-// S. Wu, U. Manber, G. Myers and W. Miller,
+// S. Wu, U. Manber, G. Myers, and W. Miller,
 // "An O(NP) Sequence Comparison Algorithm" August 1989.
 package diff
 
