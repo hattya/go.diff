@@ -110,7 +110,7 @@ type context struct {
 
 func (c *context) compare() []Change {
 	c.fp = make([]point, (c.M+1)+(c.N+1)+1)
-	for i, _ := range c.fp {
+	for i := range c.fp {
 		c.fp[i].y = -1
 	}
 
