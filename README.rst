@@ -68,6 +68,4 @@ License
 go.diff is distributed under the terms of the MIT License.
 
 
-.. rubric:: Footnotes
-
 .. [#] \S. Wu, U. Manber, G. Myers, and W. Miller, "An O(NP) Sequence Comparison Algorithm" August 1989
