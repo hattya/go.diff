@@ -1,0 +1,22 @@
+var os = require('os');
+var path = require('path');
+var go = require('language/go').go;
+var rst2html = require('language/restructuredtext').rst2html;
+
+var title = 'Aster ☆ ' + path.basename(os.getwd());
+
+aster.title(title);
+
+// go
+aster.watch(/.+\.go$/, function() {
+  if (go.get('-t', '-v')) return; 
+  if (go.vet()) return;
+  if (go.test('-v', '-race', '-covermode', 'count', '-coverprofile', 'cover.out')) return;
+  go.tool.cover('-func', 'cover.out');
+  go.tool.cover('-html', 'cover.out', '-o', 'coverage.html');
+});
+
+// rst
+aster.watch(/.+\.rst$/, function(files) {
+  files.some(function(rst) { return rst2html({ options: ['--strict'], src: rst }); });
+});
