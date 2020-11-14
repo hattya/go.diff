@@ -6,6 +6,9 @@ A Go_ implementation of "An O(NP) Sequence Comparison Algorithm" [#]_.
 .. image:: https://godoc.org/github.com/hattya/go.diff?status.svg
    :target: https://godoc.org/github.com/hattya/go.diff
 
+.. image:: https://github.com/hattya/go.diff/workflows/CI/badge.svg
+   :target: https://github.com/hattya/go.diff/actions?query=workflow:CI
+
 .. image:: https://semaphoreci.com/api/v1/hattya/go-diff/branches/master/badge.svg
    :target: https://semaphoreci.com/hattya/go-diff
 
