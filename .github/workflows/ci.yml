@@ -1,0 +1,45 @@
+name: CI
+on:
+  - push
+  - pull_request
+jobs:
+  test:
+    strategy:
+      matrix:
+        platform:
+          - Linux
+          - macOS
+          - Windows
+        go-version:
+          - 1.13
+          - 1.14
+          - 1.15
+        include:
+          - platform: Linux
+            os: ubuntu-latest
+          - platform: macOS
+            os: macos-latest
+          - platform: Windows
+            os: windows-latest
+      fail-fast: false
+    name: Go ${{ matrix.go-version }} on ${{ matrix.platform }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go-version }}
+      - name: Test
+        run: go test -v -race -covermode atomic -coverprofile coverage.txt ./...
+      - name: Vet
+        run: go vet ./...
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          flags: ${{ matrix.platform }}
+          env_vars: GO
+        env:
+          GO: ${{ matrix.go-version }}
