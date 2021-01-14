@@ -1,7 +1,7 @@
 var os = require('os');
 var path = require('path');
 var go = require('language/go').go;
-var rst2html = require('language/restructuredtext').rst2html;
+var md2html = require('language/markdown').md2html;
 
 var title = 'Aster ☆ ' + path.basename(os.getwd());
 
@@ -15,7 +15,7 @@ aster.watch(/.+\.go$/, function() {
   if (go.vet()) return;
 });
 
-// rst
-aster.watch(/.+\.rst$/, function(files) {
-  files.some(function(rst) { return rst2html({ options: ['--strict'], src: rst }); });
+// md
+aster.watch(/.+\.md$/, function(files) {
+  files.some(function(md) { return md2html({ src: md }); });
 });
