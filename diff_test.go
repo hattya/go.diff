@@ -1,7 +1,7 @@
 //
 // go.diff :: diff_test.go
 //
-//   Copyright (c) 2014-2020 Akinori Hattori <hattya@gmail.com>
+//   Copyright (c) 2014-2021 Akinori Hattori <hattya@gmail.com>
 //
 //   SPDX-License-Identifier: MIT
 //
@@ -86,6 +86,7 @@ var tests = []struct {
 		},
 	},
 }
+
 var paper = len(tests) - 1
 
 func TestDiff(t *testing.T) {
@@ -96,7 +97,7 @@ func TestDiff(t *testing.T) {
 		}
 		for i, c := range tt.cl {
 			if cl[i] != c {
-				t.Errorf("%v: expected %#v, got %#v", tt.name, c, cl[i])
+				t.Errorf("%v[%v]: expected %#v, got %#v", tt.name, i, c, cl[i])
 			}
 		}
 	}
@@ -116,7 +117,7 @@ func TestDiffExchange(t *testing.T) {
 				Ins: c.Del,
 			}
 			if cl[i] != c {
-				t.Errorf("%v: expected %#v, got %#v", tt.name, c, cl[i])
+				t.Errorf("%v[%v]: expected %#v, got %#v", tt.name, i, c, cl[i])
 			}
 		}
 	}
@@ -174,12 +175,6 @@ func TestStrings(t *testing.T) {
 	}
 }
 
-type runes struct {
-	A, B []rune
-}
-
-func (d *runes) Equal(i, j int) bool { return d.A[i] == d.B[j] }
-
 func BenchmarkDiff(b *testing.B) {
 	tt := tests[paper]
 	n := len(tt.a)
@@ -230,6 +225,12 @@ func BenchmarkStrings(b *testing.B) {
 		diff.Strings(A, B)
 	}
 }
+
+type runes struct {
+	A, B []rune
+}
+
+func (d *runes) Equal(i, j int) bool { return d.A[i] == d.B[j] }
 
 func toByte(a []rune) []byte {
 	l := make([]byte, len(a))

@@ -1,7 +1,7 @@
 //
 // go.diff :: diff.go
 //
-//   Copyright (c) 2014-2020 Akinori Hattori <hattya@gmail.com>
+//   Copyright (c) 2014-2021 Akinori Hattori <hattya@gmail.com>
 //
 //   SPDX-License-Identifier: MIT
 //
@@ -109,7 +109,7 @@ func (c *context) compare() []Change {
 
 	lcs, n := c.reverse(c.fp[Δ].lcs)
 	cl := make([]Change, 0, n+1)
-	x, y := 0, 0
+	var x, y int
 	for ; lcs != nil; lcs = lcs.next {
 		if x < lcs.x || y < lcs.y {
 			if !c.xchg {
@@ -177,16 +177,11 @@ func (c *context) snake(k int) {
 	}
 }
 
-func (c *context) reverse(curr *lcs) (*lcs, int) {
-	n := 0
-	var prev, next *lcs
+func (c *context) reverse(curr *lcs) (next *lcs, n int) {
 	for ; curr != nil; n++ {
-		prev = curr.next
-		curr.next = next
-		next = curr
-		curr = prev
+		curr.next, next, curr = next, curr, curr.next
 	}
-	return next, n
+	return
 }
 
 type point struct {
