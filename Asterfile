@@ -9,7 +9,7 @@ aster.title(title);
 
 // go
 aster.watch(/.+\.go$/, function() {
-  go.mod.tidy()
+  go.mod.tidy();
   if (go.test('-v', '-race', '-covermode', 'atomic', '-coverprofile', 'cover.out')) return;
   go.tool.cover('-func', 'cover.out');
   go.tool.cover('-html', 'cover.out', '-o', 'coverage.html');
