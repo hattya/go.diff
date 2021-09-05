@@ -11,9 +11,9 @@ jobs:
           - macOS
           - Windows
         go-version:
-          - 1.14
           - 1.15
           - 1.16
+          - 1.17
         include:
           - platform: Linux
             os: ubuntu-latest
