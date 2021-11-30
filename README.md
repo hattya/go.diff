@@ -1,6 +1,6 @@
 # go.diff
 
-A [Go](https://golang.org/) implementation of "An O(NP) Sequence Comparison Algorithm".
+A [Go](https://go.dev/) implementation of "An O(NP) Sequence Comparison Algorithm".
 
 [![pkg.go.dev](https://pkg.go.dev/badge/github.com/hattya/go.diff)](https://pkg.go.dev/github.com/hattya/go.diff)
 [![GitHub Actions](https://github.com/hattya/go.diff/actions/workflows/ci.yml/badge.svg)](https://github.com/hattya/go.diff/actions/workflows/ci.yml)
