@@ -11,9 +11,9 @@ jobs:
           - macOS
           - Windows
         go-version:
-          - 1.15
           - 1.16
           - 1.17
+          - 1.18
         include:
           - platform: Linux
             os: ubuntu-latest
@@ -33,7 +33,7 @@ jobs:
         with:
           go-version: ${{ matrix.go-version }}
       - name: Test
-        run: go test -v -race -covermode atomic -coverprofile coverage.txt ./...
+        run: go test -v -race -coverprofile coverage.txt ./...
       - name: Vet
         run: go vet ./...
       - name: Upload coverage to Codecov
