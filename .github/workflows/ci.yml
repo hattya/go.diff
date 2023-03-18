@@ -29,9 +29,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Setup Go
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@v4
         with:
           go-version: ${{ matrix.go-version }}
+          cache: false
       - name: Test
         run: go test -v -race -coverprofile coverage.txt ./...
       - name: Vet
