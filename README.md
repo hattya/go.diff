@@ -4,7 +4,6 @@ A [Go](https://go.dev/) implementation of "An O(NP) Sequence Comparison Algorith
 
 [![pkg.go.dev](https://pkg.go.dev/badge/github.com/hattya/go.diff)](https://pkg.go.dev/github.com/hattya/go.diff)
 [![GitHub Actions](https://github.com/hattya/go.diff/actions/workflows/ci.yml/badge.svg)](https://github.com/hattya/go.diff/actions/workflows/ci.yml)
-[![Semaphore](https://semaphoreci.com/api/v1/hattya/go-diff/branches/master/badge.svg)](https://semaphoreci.com/hattya/go-diff)
 [![Appveyor](https://ci.appveyor.com/api/projects/status/ryyeqn70w488ac8f/branch/master?svg=true)](https://ci.appveyor.com/project/hattya/go-diff)
 [![Codecov](https://codecov.io/gh/hattya/go.diff/branch/master/graph/badge.svg)](https://codecov.io/gh/hattya/go.diff)
 
