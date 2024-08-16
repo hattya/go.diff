@@ -1,3 +1,3 @@
 module github.com/hattya/go.diff
 
-go 1.20
+go 1.21
