@@ -14,15 +14,27 @@ jobs:
           - '1.21'
           - '1.22'
           - '1.23'
+        architecture:
+          - amd64
+          - arm64
         include:
           - platform: Linux
             os: ubuntu-latest
+          - platform: Linux
+            os: ubuntu-24.04-arm
+            architecture: arm64
           - platform: macOS
             os: macos-latest
+          - platform: macOS
+            os: macos-13
+            architecture: amd64
           - platform: Windows
             os: windows-latest
+        exclude:
+          - platform: Windows
+            architecture: arm64
       fail-fast: false
-    name: Go ${{ matrix.go-version }} on ${{ matrix.platform }}
+    name: Go ${{ matrix.go-version }} (${{ matrix.architecture }}) on ${{ matrix.platform }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
     steps:
@@ -38,7 +50,7 @@ jobs:
       - name: Vet
         run: go vet ./...
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           env_vars: GO
