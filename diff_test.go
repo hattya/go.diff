@@ -1,7 +1,7 @@
 //
 // go.diff :: diff_test.go
 //
-//   Copyright (c) 2014-2021 Akinori Hattori <hattya@gmail.com>
+//   Copyright (c) 2014-2025 Akinori Hattori <hattya@gmail.com>
 //
 //   SPDX-License-Identifier: MIT
 //
@@ -181,7 +181,7 @@ func BenchmarkDiff(b *testing.B) {
 	m := len(tt.b)
 	data := &runes{tt.a, tt.b}
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		diff.Diff(n, m, data)
 	}
 }
@@ -191,7 +191,7 @@ func BenchmarkBytes(b *testing.B) {
 	A := toByte(tt.a)
 	B := toByte(tt.b)
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		diff.Bytes(A, B)
 	}
 }
@@ -201,7 +201,7 @@ func BenchmarkInts(b *testing.B) {
 	A := toInt(tt.a)
 	B := toInt(tt.b)
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		diff.Ints(A, B)
 	}
 }
@@ -211,7 +211,7 @@ func BenchmarkRunes(b *testing.B) {
 	A := tt.a
 	B := tt.b
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		diff.Runes(A, B)
 	}
 }
@@ -221,7 +221,7 @@ func BenchmarkStrings(b *testing.B) {
 	A := toString(tt.a)
 	B := toString(tt.b)
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		diff.Strings(A, B)
 	}
 }

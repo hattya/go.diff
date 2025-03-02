@@ -11,7 +11,7 @@ A [Go](https://go.dev/) implementation of "An O(NP) Sequence Comparison Algorith
 ## Installation
 
 ```console
-$ go get -u github.com/hattya/go.diff
+$ go get github.com/hattya/go.diff
 ```
 
 
