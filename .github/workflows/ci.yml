@@ -11,9 +11,9 @@ jobs:
           - macOS
           - Windows
         go-version:
-          - '1.23'
           - '1.24'
           - '1.25'
+          - '1.26'
         architecture:
           - amd64
           - arm64
@@ -39,7 +39,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           persist-credentials: false
       - name: Setup Go
@@ -52,7 +52,7 @@ jobs:
       - name: Vet
         run: go vet ./...
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           env_vars: GO
